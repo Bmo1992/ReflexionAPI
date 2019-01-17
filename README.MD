@@ -1,1 +1,3 @@
-## Connect to ReflexionAPI via Powershell
+# ReflexionAPI
+
+Powershell Scripts to interact with [api.reflexion.net/rfx-rest-api]
