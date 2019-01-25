@@ -1,5 +1,5 @@
-function ConnectTo-Reflexion 
-{
+#function ConnectTo-Reflexion 
+#{
     <#
     .SYNOPSIS
       Connect to the Reflexion API
@@ -32,7 +32,7 @@ function ConnectTo-Reflexion
     #### VARIABLES ####
 
     # url for the generating an authentication token
-    $api_auth_url = "https://api.reflexion.net/rfx-rest-api"
+    $api_auth_url = "https://api.reflexion.net/rfx-rest-api/auth"
 
     # Prompt for the API enabled user credentials and store them as ps objects in the creds table
     $ps_cred = Get-Credential -Message "Enter Credentials for you API Enabled Reflexion User"
@@ -49,8 +49,8 @@ function ConnectTo-Reflexion
     }
 
     # Generate the auth token and store it in the headers
-    $session = Invoke-RestMethod -Uri $api_auth -Method Post -Body ($creds | ConvertTo-Json) -Headers $headers
+    $session = Invoke-RestMethod -Uri $api_auth_url -Method Post -Body ($creds | ConvertTo-Json) -Headers $headers
     $auth_token = $session.auth_token
     $headers["auth_token"] = $auth_token
 
-}
+#}
