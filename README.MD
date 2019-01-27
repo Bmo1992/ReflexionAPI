@@ -11,7 +11,7 @@ Per Reflexion documentation all API calls must be authenticated by passing the f
 The auth token is generated using the ConnectTo-Reflexion function which requires the username, password, and 
 API service key of the API management account.
 
-## Requirnments
+## Requirements
 To use this module the following Reflexion items are required:
 - A user account with privilege to manage enterprises/users in Reflexion
   - The information available for an API user is limited to what they have access to through the web portal
