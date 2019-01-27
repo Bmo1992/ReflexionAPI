@@ -41,8 +41,9 @@ function ConnectTo-Reflexion
         "password" = $ps_cred.GetNetworkCredential().password
     }
    
-    # Create the headers required for API authentication per the Reflexion documentation
-    $headers = @{
+    # Create the headers required for API authentication per the Reflexion documentation. The headers need to be global
+    # in order to be accessable to the other functions in the module
+    $global:headers = @{
         "service_key" = $ServiceKey;
         "content-type" = "application/json";
         "accept" = "application/json"
@@ -50,7 +51,7 @@ function ConnectTo-Reflexion
 
     # Generate the auth token and store it in the headers
     $session = Invoke-RestMethod -Uri $api_auth_url -Method Post -Body ($creds | ConvertTo-Json) -Headers $headers
-    $global:auth_token = $session.auth_token
-    $headers["auth_token"] = $auth_token
+    $auth_token = $session.auth_token
+    $global:headers["auth_token"] = $auth_token
 
 }
