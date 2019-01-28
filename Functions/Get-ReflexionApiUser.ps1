@@ -38,6 +38,6 @@ Function Get-ReflexionApiUser
     }
     Catch
     {
-        Throw "Unable to connect to Reflexion. If your authentication token has expire run the Connect-ReflexionAPI function and try again"
+        Throw "Unable to connect to Reflexion. If your authentication token has expired run the Connect-ReflexionAPI function and try again"
     }
 }
