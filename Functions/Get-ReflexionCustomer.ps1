@@ -33,7 +33,7 @@ Function Get-ReflexionCustomer
     
     Try
     {
-        Invoke-RestMethod -Uri "https://api.reflexion.net/rfx-rest-api/enterprises/$EnterpriseId" -Headers $reflexion_headers
+        Invoke-RestMethod -Uri "https://api.reflexion.net/rfx-rest-api/enterprises/$EnterpriseId/customers" -Headers $reflexion_headers
     }
     Catch
     {
