@@ -11,7 +11,7 @@ Function Get-ReflexionCustomer
         .PARAMETER EnterpriseId
           Specify the enterprise id of the API users enterprise.  This can be found with the Get-ReflexionApiUser function.
 
-        .PARAMETER CustomerId
+        .PARAMETER CustomerEnterpriseId
           Pull information for a specific customer by specifying their Reflexion EnterpriseId.
 
         .PARAMETER CustomerName
@@ -52,7 +52,7 @@ Function Get-ReflexionCustomer
             ParameterSetName='CustomerId',
             Mandatory=$False
         )]
-        [string]$CustomerId,
+        [string]$CustomerEnterpriseId,
         [Parameter(
             ParameterSetName='CustomerName',
             Mandatory=$False
@@ -70,11 +70,11 @@ Function Get-ReflexionCustomer
         Throw "Unable to connect to Reflexion. If your authentication token has expired run the Connect-ReflexionAPI function and try again"
     }
 
-    if($CustomerId)
+    if($CustomerEnterpriseId)
     {
         $all_reflexion_customers | Where `
         {
-            $_.enterpriseId -eq $CustomerId
+            $_.enterpriseId -eq $CustomerEnterpriseId
         }
     }
     elseif($CustomerName)
