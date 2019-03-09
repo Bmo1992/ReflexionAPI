@@ -5,6 +5,7 @@ Function Add-ReflexionUser
           Create a new user under an enterprise.
 
         .DESCRIPTION
+          Create a new user under an enterprise by specifying the new user's name and primary address.  For accounts with multiple tenants the enterprise Id of the specific tenant to create the new user under is required.
 
         .PARAMETER Name
           Specify the name of the new Reflexion user.
