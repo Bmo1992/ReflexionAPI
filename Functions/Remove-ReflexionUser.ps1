@@ -5,18 +5,15 @@ Function Remove-ReflexionUser
           Remove a Reflexion mailbox.
 
         .DESCRIPTION
-          Remove a Reflexion mailbox by specifying the enterprise Id of the customer or primary account. To remove a user the primary smtp address of the specific user is required. 
+          Remove a Reflexion mailbox by specifying the unique Id of the user.  The user must be located under your enterprise or another enterprise that is a tenant of your enterprise (in the event that you have multiple tenants/customers under your enterprise).
 
-        .PARAMETER EnterpriseId
-          Specify the enterprise Id of the specific customer under which the user to be removed is located. This field is required.
-
-        .PARAMETER PrimaryAddress
-          Specify the primary address of the specific user to be removed.
+        .PARAMETER UserId
+          Specify the user Id of the specific user to be removed. This field is required.
 
         .EXAMPLE
-          Remove-ReflexionUser -EnterpriseId 12345 -PrimaryAddress "jdoe@bigcompany.com"
+          Remove-ReflexionUser -UserId 12345
 
-          Removes the user with a primary smtp address of jdoe@bigcompany.com from the enterprise with an Id of 12345.
+          Removes the user with a user Id of 12345 from one of the enterprises your API user controls. 
 
         .NOTES
           NAME    : Remove-ReflexionUser
@@ -31,17 +28,17 @@ Function Remove-ReflexionUser
         [Parameter(
             Mandatory=$True
         )]
-        [int]$EnterpriseId,
-        [string]$PrimaryAddress
+        [string]$UserId
     )
 
-    $confirm_submission = Read-Host "Are you sure you want to remove $PrimaryAddress from enterprise $EnterpriseId [Y/N]?"
+    # Prompt for confirmation before deleting the user. If yes proceed to attempting to delete the user.
+    $confirm_submission = Read-Host "Are you sure you want to delete $UserId [Y/N]?"
     if($confirm_submission -eq "Y")
     {
         Try
         {
-            Invoke-WebRequest -Uri "https://api.reflexion.net/rfx-rest-api/enterprises/$EnterpriseId/users" `
-            -Method DELETE -Body ($PrimaryAddress | ConvertTo-Json) -Headers $reflexion_headers
+            Invoke-WebRequest -Uri "https://api.reflexion.net/rfx-rest-api/users/$UserId" `
+            -Method DELETE -Headers $reflexion_headers
         }
         Catch
         {
@@ -50,7 +47,7 @@ Function Remove-ReflexionUser
     }
     elseif($confirm_submission -eq "N")
     {
-        Write-Host "User $PrimaryAddress was not deleted because you answered N."
+        Write-Host "User $UserId was not deleted because you answered N."
     }
     else
     {
