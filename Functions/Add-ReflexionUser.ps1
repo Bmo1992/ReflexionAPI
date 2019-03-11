@@ -39,18 +39,33 @@ Function Add-ReflexionUser
         [string]$EnterpriseId
     )
 
+    # Place the user properties in a table to be converted to JSON later when passing the information to the API.
     $new_user = @{
         "name" = $Name;
         "primaryAddress" = $PrimaryAddress
     }
 
-    Try
+    # Confirm creation of the mailbox before attempting to connect to the API.
+    $confirm_creation = Read-Host "A new mailbox will be created for $PrimaryAddress under enterprise $EnterpriseId. Are you sure you wish to continue [Y/N]?"
+
+    if($confirm_creation -eq 'Y')
     {
-        Invoke-WebRequest -Uri "https://api.reflexion.net/rfx-rest-api/enterprises/$EnterpriseId/users" -Method POST `
-        -Body ($new_user | ConvertTo-Json) -Headers $reflexion_headers
+        Try
+        {
+            Invoke-WebRequest -Uri "https://api.reflexion.net/rfx-rest-api/enterprises/$EnterpriseId/users" -Method POST `
+            -Body ($new_user | ConvertTo-Json) -Headers $reflexion_headers
+        }
+        Catch
+        {
+            Throw "Unable to connect to Reflexion or create the new user.  Please confirm that youre authenticated to the Reflexion API and that the user name or enterprise id does not already exist in Reflexion and try again"
+        }
     }
-    Catch
+    elseif($confirm_creation -eq "N")
     {
-        Throw "Unable to connect to Reflexion or create the new user.  Please confirm that youre authenticated to the Reflexion API and that the user name or enterprise id does not already exist in Reflexion and try again"
+        Throw "Answer marked as 'N'.  Exiting program, no mailbox was created"
+    }
+    else
+    {
+        Throw "Invalid response, please run again and reply with 'Y' or 'N'."
     }
 }
