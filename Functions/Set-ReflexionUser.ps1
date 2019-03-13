@@ -51,9 +51,38 @@ Function Set-ReflexionUser
         [bool]$BlockBulkEmails,
         [bool]$OutlookFormatting,
         [bool]$SecurityStatus,
-        [bool]$SpoofingPrevention,
-        
-        
+        [bool]$SpoofingPrevention    
     )
 
+    $api_url = "https://api.reflexion.net/rfx-rest-api/"
+
+    if($PSBoundParameters.ContainsKey('AttachControlPanel'))
+    {
+        if($AttachControlPanel)
+        {
+            Try
+            {
+                Write-Host "The AttachControlPanel setting for $UserId was set to $AttachControlPanel."
+            }
+            Catch
+            {
+                Throw "Couldn't set the AttachControlPanel option to $AttachControlPanel for $UserId. Please check connectivity and try again."
+            }
+        }
+        elseif(-not $AttachControlPanel)
+        {
+            Try
+            {
+                Write-Host "The AttachControlPanel setting for $UserId was set to $AttachControlPanel."
+            }
+            Catch
+            {
+                Throw "Couldn't set the AttachControlPanel option to $AttachControlPanel for $UserId. Please check connectivity and try again."
+            }
+        }
+        else
+        {
+            Throw "Answer not understood, accepted values for the AttachControlPanel property are `$True and `$False"
+        }
+    }
 }
